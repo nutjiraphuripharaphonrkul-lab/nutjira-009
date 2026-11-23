@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>หน้าแรก | เที่ยวบ้านเรา</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <p class="site-name">เที่ยวบ้านเรา</p>
+        <nav aria-label="เมนูหลัก">
+            <ul>
+	<li><a href="login.html">เข้าสู่ระบบ</a></li>
+                <li><a href="index.html">หน้าแรก</a></li>
+                <li><a href="places.html">ที่เที่ยว</a></li>
+                <li><a href="food.html">อาหาร</a></li>
+                <li><a href="plan.html">วางแผนเที่ยว</a></li>
+                <li><a href="travel.html">ข้อมูลการเดินทาง</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>เที่ยวบ้านเราในหนึ่งวัน</h1>
+        <p>สถานที่ท่องเที่ยวประจำจังหวัดประจวบคีรีขันธ์</p>
+
+<section class="gallery-carousel" aria-label="แกลเลอรี่สถานที่ท่องเที่ยว">
+            <div class="gallery-viewport">
+                <div class="gallery-track" id="galleryTrack">
+                    <div class="gallery-slide">
+                        <img src="images/sapanpla.jpg" alt="สะพานสราญวิถี ประจวบคีรีขันธ์">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="images/Kaow.jpg" alt="อ่าวประจวบและเขาช่องกระจก">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="images/aomanow.jpg" alt="อนุสาวรีย์โลมา อ่าวมะนาว">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="images/KLM.jpg" alt="มุมสูงอ่าวประจวบคีรีขันธ์">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="images/lukmuang.jpg" alt="วัดเขาช่องกระจก">
+                    </div>
+                </div>
+            </div>
+    <div class="gallery-dots" id="galleryDots" role="tablist" aria-label="เลือกภาพในแกลเลอรี่"></div>
+        </section>
+<p class="gallery-caption">ชวนเดินตลาด ชิมอาหารพื้นถิ่น และพักชมวิวในชุมชน</p>
+        <section class="card">
+            <h2>เริ่มจากจุดที่คุณสนใจ</h2>
+            <p>เลือกสถานที่ที่อยากไป แล้วจัดเส้นทางให้เหมาะกับเวลาของคุณ</p>
+            <a class="button" href="places.html">ดูแหล่งท่องเที่ยว</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>ณัฐจิรา009 | ใบงานฝึกปฏิบัติวิชาการสร้างเว็บไซต์ทางธุรกิจ</p>
+    </footer>
+<script>
+        (function () {
+            const track = document.getElementById('galleryTrack');
+            const dotsContainer = document.getElementById('galleryDots');
+            const carousel = document.querySelector('.gallery-carousel');
+            if (!track || !dotsContainer) return;
+
+            const slides = Array.from(track.children);
+            const totalSlides = slides.length;
+            if (totalSlides === 0) return;
+
+            let currentIndex = 0;
+            let autoSlideTimer = null;
+
+            // สร้างปุ่มจุด (Dots) ตามจำนวนรูปภาพ
+            slides.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'gallery-dot' + (index === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', 'ไปยังรูปที่ ' + (index + 1));
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    restartAutoSlide();
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = Array.from(dotsContainer.children);
+
+            function goToSlide(index) {
+                currentIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentIndex);
+                });
+            }
+
+            function nextSlide() {
+                goToSlide(currentIndex + 1);
+            }
+
+            function startAutoSlide() {
+                stopAutoSlide();
+                autoSlideTimer = setInterval(nextSlide, 4000);
+            }
+
+            function stopAutoSlide() {
+                if (autoSlideTimer) {
+                    clearInterval(autoSlideTimer);
+                    autoSlideTimer = null;
+                }
+            }
+
+            function restartAutoSlide() {
+                startAutoSlide();
+            }
+
+            if (carousel) {
+                carousel.addEventListener('mouseenter', stopAutoSlide);
+                carousel.addEventListener('mouseleave', startAutoSlide);
+            }
+
+            startAutoSlide();
+        })();
+    </script>
+</body>
+
+</html>
